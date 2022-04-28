@@ -11,9 +11,7 @@ public class SeleniumClass01 {
     public void myctestcase () {
 
         System.setProperty("webdriver.chrome.driver", "./Drivers/chromedriver");
-
         WebDriver driver = new ChromeDriver();
-
         driver.get("https://www.amazon.com");
 
     }

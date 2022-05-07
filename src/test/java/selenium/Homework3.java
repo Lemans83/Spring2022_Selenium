@@ -15,43 +15,60 @@ import java.util.List;
 public class Homework3 {
 
   @Test
-  public void testCase1(){
-    //Steps for task 1
-    // 1. Open the browser
-    // 2. Find webelement F and C
-    // 3. Click on F&C webelemebt
-    // 4. Choose the appropriate Degree
-    // 5. And verify if the correct temperature is displayed
-    System.setProperty("webdriver.chrome.driver", "./Drivers/chromedriver");
-    WebDriver driver = new ChromeDriver();
-    driver.get("https://www.darksky.net");
+  public void testCase1() {
+      //Steps for task 1
+      // 1. Open the browser
+      // 2. Find webelement F and C
+      // 3. Click on F&C webelemebt
+      // 4. Choose the appropriate Degree
+      // 5. And verify if the correct temperature is displayed
+      System.setProperty("webdriver.chrome.driver", "./Drivers/chromedriver");
+      WebDriver driver = new ChromeDriver();
+      driver.get("https://www.darksky.net");
+
+     By text = (By.xpath("//span[@class='summary swap']"));
+     String[] getText = driver.findElement(text).getText().split("˚");
+     int convertion = Integer.parseInt(getText[0]);
+      System.out.println(convertion);
+
+      // I found two strategies.
+      //driver.findElement(By.xpath("(//div[@class='options']/div)[1]")).click();
+      driver.findElement(By.xpath("//div[contains(@class,'selectric-units')]")).click();
+      driver.findElement(By.xpath("(//div[@class='selectric-scroll']//ul/li)[4]")).click();
+
+      By textC = (By.xpath("//span[@class='summary swap']"));
+      String[] getTextC = driver.findElement(textC).getText().split("˚");
+      int convertionC = Integer.parseInt(getTextC[0]);
+      System.out.println(convertionC);
+
+      double formulaTemp = (convertion-32)*5/9;
+      System.out.println(formulaTemp);
+     // int ii=  Math.round(formulaTemp);
+      boolean bb = convertionC == Math.round(formulaTemp);
+      System.out.println(bb);
+
+      Assert.assertTrue(bb, "Not true");
+      driver.quit();
+      }
 
 
-     driver.findElement(By.xpath("(//div[@class='options']/div)[1]")).click();
-     List<WebElement> findElem = driver.findElements(By.xpath("//div[@class='selectric-scroll']//ul/li"));
+// Ahsan, I tired to use loop just to play around with methods but could not figure out. Could you please advise how can we use Loop?
 
-    for (WebElement temp: findElem){
-        if (temp.getText().contains("˚C, mph")){
-            temp.click();
-        }
-
-
-
-
-
-    }
-
+//      List<WebElement> findElem = driver.findElements(By.xpath("//div[@class='selectric-scroll']//ul/li"));
+//
+//      for (WebElement temp : findElem) {
+//          if (temp.getText().contains("˚C, mph")) {
+//              temp.click();
+//          }
+//      }
 
 //˚F, mph
 //˚C, m/s
 //˚C, km/h
 //˚C, mph
 
-  }
-    /**
-     * TC-1:  darksky.net
-     * Verify correct temperature value is displayed after changing temperature units
-     */
+
+
   @Test
   public void testCase2(){
       // Steps for Test 2
@@ -119,6 +136,4 @@ public class Homework3 {
         driver.quit();
 
     }
-
-
 }
